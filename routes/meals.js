@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Meal = require('../models/mealModel');
 
 /* GET single meal by id. */
 router.get('/:mealid', (req, res, next)=>{
@@ -13,29 +14,25 @@ router.get('/:mealid', (req, res, next)=>{
   });
 });
 
-/* POST Meal to food diary. */
-router.post('/', function(req, res, next) { 
-  const { mealType, description, plateImageURL } = req.body;
- 
-  /* Generate a new id (simple approach: max id + 1)
-     borrowed from class lecture. */
-  const newId = req.app.locals.meals.length > 0 
-    ? Math.max(...req.app.locals.meals.map(p => p.id)) + 1 
-    : 1;
-
-  /* Create new Meal object adding current date to meal type for display purposes */
-  const newMeal = {
-    id: newId,
-    meal : new Date().toDateString() + ": " + mealType,
-    description,
-    plateImageURL
-  };
-
-  /* Add to Meal to food diary array */
-  req.app.locals.meals.push(newMeal);
+/* POST new photo using Mongo. */
+router.post('/', async function(req, res, next) { 
+  const mealData  = {
+    mealname: new Date().toDateString() + ": " + req.body.mealType,
+    plateImageURL: req.body.plateImageURL,
+    description: req.body.description,
+  }  
+  console.log(req.file);
   
-  /* Redirect to home page */
+  let newMeal = new Meal(mealData);
+
+  try{
+    await newMeal.save()
+  }catch(err){
+    console.error("Error saving meal to database:", err);
+  }
+  // Redirect to home page
   res.redirect('/');
 });
+
 
 module.exports = router;
