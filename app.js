@@ -11,6 +11,16 @@ var mealsRouter = require('./routes/meals');
 const data = require('./data');
 app.locals.meals = data.foodDiary;
 
+// Connnect to MongoDB and Mongoose
+const mongoose = require('mongoose');      
+
+mongoose.connect(process.env.MONGODB_URI)
+ .then(()=>console.log('Connected to MongoDB...'))
+ .catch(err => {
+    console.error('Could not connect to MongoDB...', err);
+    process.exit(1);
+    });   
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
