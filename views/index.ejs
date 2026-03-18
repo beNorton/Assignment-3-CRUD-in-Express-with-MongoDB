@@ -1,0 +1,13 @@
+<%- include('header') %>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to "<strong><%= title %></strong>", an application to track what you eat each day.</p>
+    <ul>
+      <!-- Loop through meals and create a list item with a link to the meal details page for each meal -->
+       <% meals.forEach(meal => { %>
+        <li><a href="/meals/<%= meal.id %>"><%= meal.meal %></a></li>
+      <% }) %>    
+    </ul> 
+    <%- include('addFood') %>
+  </body>
+</html>
