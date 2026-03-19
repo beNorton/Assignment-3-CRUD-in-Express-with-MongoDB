@@ -7,6 +7,26 @@
             <p><%= meal.description %></p>
             <div class="meal-image">
                 <img src="<%= meal.plateImageURL %>" alt="<%= title %>">
+            </div>
+            <h2>Edit Meal</h2>
+            <form action="/meals/<%= meal._id %>/edit" method="POST">
+                <div class="form-group">
+                    <label for="mealname">Meal Name:</label>
+                    <input type="text" id="mealname" name="mealname" value="<%= meal.mealname %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label><br>
+                    <textarea id="description" name="description" rows="5" cols="40" required><%= meal.description %></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="plateImageURL">Plate Pic Url:</label>
+                    <input type="text" id="plateImageURL" name="plateImageURL" value="<%= meal.plateImageURL %>">
+                </div>
+                <button type="submit">Save Changes</button>
+            </form>
+            <form action="/meals/<%= meal._id %>/delete" method="POST">
+                <button type="submit">Delete Meal</button>
+            </form>
         </div>
         <% } else { %>
         <p>Meal not found.</p>

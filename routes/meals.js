@@ -3,37 +3,92 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Meal = require('../models/mealModel');
 
-/* GET single meal by id. with Mongoose */
-router.get('/:mealid', async function(req, res, next) {
-  // if the meal id isn't valid disply 'No meal found'
-  if (!mongoose.isValidObjectId(req.params.mealid)) {
-    return res.status(404).render('meal', {
-      title: 'No meal found',
-      meal: null
-    });
+function renderMealNotFound(res) {
+  return res.status(404).render('meal', {
+    title: 'No meal found',
+    meal: null
+  });
+}
+
+async function findMealById(mealId) {
+  if (!mongoose.isValidObjectId(mealId)) {
+    return null;
   }
 
+  return Meal.findById(mealId);
+}
+
+/* GET single meal by id. with Mongoose */
+router.get('/:mealid', async function(req, res, next) {
   let meal = null;
   try {
-    meal = await Meal.findById(req.params.mealid);
+    meal = await findMealById(req.params.mealid);
   } catch (err) {
     console.error("Error getting meal from our database", err);
     return next(err);
   }
-  // If the meal id doesn't exists for some reason, display 'not found meessage'
+
   if (!meal) {
-    return res.status(404).render('meal', {
-      title: 'No meal found',
-      meal: null
-    });
+    return renderMealNotFound(res);
   }
-  // otherwise display meal
+
   res.render('meal', {
     title: meal.mealname,
     meal: meal
   });
 });
 
+/* POST meal updates using Mongo. */
+router.post('/:mealid/edit', async function(req, res, next) {
+  let meal = null;
+  try {
+    meal = await findMealById(req.params.mealid);
+  } catch (err) {
+    console.error("Error getting meal from our database", err);
+    return next(err);
+  }
+
+  if (!meal) {
+    return renderMealNotFound(res);
+  }
+
+  meal.mealname = req.body.mealname;
+  meal.description = req.body.description;
+  meal.plateImageURL = req.body.plateImageURL;
+
+  try {
+    await meal.save();
+  } catch (err) {
+    console.error("Error updating meal in database:", err);
+    return next(err);
+  }
+
+  res.redirect(`/meals/${meal._id}`);
+});
+
+/* POST meal delete using Mongo. */
+router.post('/:mealid/delete', async function(req, res, next) {
+  let meal = null;
+  try {
+    meal = await findMealById(req.params.mealid);
+  } catch (err) {
+    console.error("Error getting meal from our database", err);
+    return next(err);
+  }
+
+  if (!meal) {
+    return renderMealNotFound(res);
+  }
+
+  try {
+    await Meal.findByIdAndDelete(req.params.mealid);
+  } catch (err) {
+    console.error("Error deleting meal from database:", err);
+    return next(err);
+  }
+
+  res.redirect('/');
+});
 
 /* POST new meal using Mongo. */
 router.post('/', async function(req, res, next) { 
@@ -50,6 +105,7 @@ router.post('/', async function(req, res, next) {
     await newMeal.save()
   }catch(err){
     console.error("Error saving meal to database:", err);
+    return next(err);
   }
   // Redirect to home page
   res.redirect('/');

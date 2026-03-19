@@ -24,3 +24,7 @@ image of your food. Click the "Add Food" button and you'll see this added to you
 ## Deplpyment Link
 
 [assignment-2-an-express-application-vugo.onrender.com/](https://assignment-2-an-express-application-vugo.onrender.com/)
+
+## CHAT PROMPT to build UPDATE/DELETE functionality
+
+Help me add edit and delete functionality to my Express + MongoDB meal tracker in assignment-3/Assignment-3-CRUD-in-Express-with-MongoDB using plain POST routes only. I want both actions available from the single meal details page. Please first inspect the existing routes, views, and Mongoose model, then implement the feature end-to-end with minimal clean changes. Add an edit form on the meal details page that submits with POST and updates the existing meal in MongoDB, and add a delete form/button on that same page that submits with POST and removes the meal from the database. Handle invalid or missing meal IDs gracefully, keep redirects sensible after update/delete, and preserve the current app structure and style. After making the changes, briefly explain what routes and view changes you added.
