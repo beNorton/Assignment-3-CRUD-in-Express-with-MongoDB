@@ -1,12 +1,12 @@
 <%- include('header', { title: title }) %>
     <div class="page-content">  
         <h1>Meal Details</h1>
-        <% if (meals) { %>
+        <% if (meal) { %>
         <div class="meal-item">
-            <h1><%= title %></h1>
-            <p><%= description %></p>
+            <h1><%= meal.mealname %></h1>
+            <p><%= meal.description %></p>
             <div class="meal-image">
-                <img src="<%= plateImageURL %>" alt="<%= title %>">
+                <img src="<%= meal.plateImageURL %>" alt="<%= title %>">
         </div>
         <% } else { %>
         <p>Meal not found.</p>
