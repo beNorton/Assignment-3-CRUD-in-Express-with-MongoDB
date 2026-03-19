@@ -53,7 +53,8 @@ router.post('/:mealid/edit', async function(req, res, next) {
   }
 
   meal.mealname = req.body.mealname;
-  meal.description = req.body.description;
+  // call helper function to split description.
+  meal.description = parseDescription(req.body.description);
   meal.plateImageURL = req.body.plateImageURL;
 
   try {
@@ -90,12 +91,21 @@ router.post('/:mealid/delete', async function(req, res, next) {
   res.redirect('/');
 });
 
+//Helper function to split the meal description into an array.
+function parseDescription(descriptionText) {
+  return descriptionText
+    .split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
+}
+
 /* POST new meal using Mongo. */
 router.post('/', async function(req, res, next) { 
   const mealData  = {
     mealname: new Date().toDateString() + ": " + req.body.mealType,
     plateImageURL: req.body.plateImageURL,
-    description: req.body.description,
+    // call helper function to split description.
+    description: parseDescription(req.body.description),
   }  
   console.log(req.file);
   

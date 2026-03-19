@@ -4,7 +4,13 @@
         <% if (meal) { %>
         <div class="meal-item">
             <h1><%= meal.mealname %></h1>
-            <p><%= meal.description %></p>
+            <!-- <p><%= meal.description %></p> -->
+             <!-- replease with list of food items -->
+            <ul>
+            <% meal.description.forEach(function(item) { %>
+            <li><%= item %></li>
+            <% }) %>
+            </ul>
             <div class="meal-image">
                 <img src="<%= meal.plateImageURL %>" alt="<%= title %>">
             </div>
@@ -21,7 +27,10 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label><br>
-                    <textarea id="description" name="description" rows="5" cols="40" required><%= meal.description %></textarea>
+                    <!-- <textarea id="description" name="description" rows="5" cols="40" required><%= meal.description %></textarea> -->
+                    <!-- replace with textarea for list of food items -->
+                    <textarea id="description" name="description" rows="5" cols="40" required><%= meal.description.join('\n') %></textarea>
+
                 </div>
                 <div class="form-group">
                     <label for="plateImageURL">Plate Pic Url:</label>

@@ -7,7 +7,8 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
   mealname: {type: String, required:true},
   plateImageURL: {type: String, required:false},
-  description: {type: String, required:true},
+  // description is an array of food item. 
+  description: {type: [String], required:true},
   createdAt: {type: Date},
   updatedAt: {type: Date}
 }, {timestamps: true});
