@@ -1,11 +1,14 @@
-# Assignment 2: Express Routing and Templates
+# Assignment 3: CRUD in Express, with MongoDB and Mongoose
 
 ## Overview
 
 This application is used to track the food that you eat durning the day. The home page lists all of your
 entries that have been looged. You can click on the list to meal to see more details. On the home page you
 can log your meals by filling out the form. Select the meal, enter a description, and provide a link to an
-image of your food. Click the "Add Food" button and you'll see this added to your list of entries. Currently the description you add is not parsed individually by a new line, that is a future enhancement.
+image of your food. Click the "Add Food" button and you'll see this added to your list of entries. 
+
+In this release of the application data is saved into a MongoDB database. Users now have the ability to edit
+and delete an entry. When food is logged each line of the description is treated like an array.
 
 ## Getting started
 
@@ -23,7 +26,7 @@ image of your food. Click the "Add Food" button and you'll see this added to you
 
 ## Deplpyment Link
 
-[assignment-2-an-express-application-vugo.onrender.com/](https://assignment-2-an-express-application-vugo.onrender.com/)
+[assignment-3-crud-in-express-with-mongodb.onrender.com/](https://assignment-3-crud-in-express-with-mongodb.onrender.com)
 
 ## CHAT PROMPT to build UPDATE/DELETE functionality
 
