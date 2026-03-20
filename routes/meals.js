@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Meal = require('../models/mealModel');
 
+// render this when no meal found
 function renderMealNotFound(res) {
   return res.status(404).render('meal', {
     title: 'No meal found',
@@ -10,11 +11,12 @@ function renderMealNotFound(res) {
   });
 }
 
+// Check if mealId is a proper object
+// if so then get the meal by mealId
 async function findMealById(mealId) {
   if (!mongoose.isValidObjectId(mealId)) {
     return null;
   }
-
   return Meal.findById(mealId);
 }
 
@@ -27,11 +29,11 @@ router.get('/:mealid', async function(req, res, next) {
     console.error("Error getting meal from our database", err);
     return next(err);
   }
-
+  // no meal found
   if (!meal) {
     return renderMealNotFound(res);
   }
-
+  //render the meal
   res.render('meal', {
     title: meal.mealname,
     meal: meal

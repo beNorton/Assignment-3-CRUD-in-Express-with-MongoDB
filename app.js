@@ -8,9 +8,6 @@ var app = express();
 var indexRouter = require('./routes/index');
 var mealsRouter = require('./routes/meals');
 
-const data = require('./data');
-app.locals.meals = data.foodDiary;
-
 // Connnect to MongoDB and Mongoose
 const mongoose = require('mongoose');      
 
